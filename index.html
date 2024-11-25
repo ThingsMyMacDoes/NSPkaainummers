@@ -27,28 +27,27 @@
       border-radius: 5px;
       border: 1px solid #ddd;
       display: flex;
-      justify-content: space-between; /* Align items across the row */
+      justify-content: space-between; /* Align items in a row */
       align-items: center; /* Center items vertically */
       gap: 10px;
     }
     .kaai-title {
       font-weight: bold;
     }
-    .button-container {
+    .icon-container {
       display: flex;
-      gap: 10px; /* Space between buttons */
+      gap: 15px; /* Space between icons */
     }
-    .kaai button {
-      padding: 8px 12px;
-      font-size: 14px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    .icon-container a img {
+      width: 30px; /* Adjust the size of the icons */
+      height: 30px;
+      display: block;
     }
-    .kaai button:hover {
-      background-color: #0056b3;
+    .icon-container a {
+      text-decoration: none;
+    }
+    .icon-container a:hover img {
+      opacity: 0.8; /* Add a hover effect */
     }
   </style>
 </head>
@@ -100,35 +99,35 @@
         kaaiTitle.innerText = `Kaai ${kaainr}`;
         kaaiDiv.appendChild(kaaiTitle);
 
-        // Button container
-        const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'button-container';
+        // Icon container
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'icon-container';
 
-        // Google Maps Button
-        const googleButton = document.createElement('button');
-        googleButton.innerText = 'Google Maps';
-        googleButton.onclick = () =>
-          window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank');
+        // Google Maps Icon
+        const googleLink = document.createElement('a');
+        googleLink.href = `https://www.google.com/maps?q=${lat},${lon}`;
+        googleLink.target = '_blank';
+        googleLink.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Google_Maps_icon.svg" alt="Google Maps" title="Open in Google Maps">`;
 
-        // Apple Maps Button
-        const appleButton = document.createElement('button');
-        appleButton.innerText = 'Apple Maps';
-        appleButton.onclick = () =>
-          window.open(`https://maps.apple.com/?q=${lat},${lon}`, '_blank');
+        // Apple Maps Icon
+        const appleLink = document.createElement('a');
+        appleLink.href = `https://maps.apple.com/?q=${lat},${lon}`;
+        appleLink.target = '_blank';
+        appleLink.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_Maps_logo.svg" alt="Apple Maps" title="Open in Apple Maps">`;
 
-        // Waze Button
-        const wazeButton = document.createElement('button');
-        wazeButton.innerText = 'Waze';
-        wazeButton.onclick = () =>
-          window.open(`https://www.waze.com/ul?ll=${lat},${lon}&navigate=yes`, '_blank');
+        // Waze Icon
+        const wazeLink = document.createElement('a');
+        wazeLink.href = `https://www.waze.com/ul?ll=${lat},${lon}&navigate=yes`;
+        wazeLink.target = '_blank';
+        wazeLink.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Waze_logo.svg" alt="Waze" title="Open in Waze">`;
 
-        // Append buttons to the button container
-        buttonContainer.appendChild(googleButton);
-        buttonContainer.appendChild(appleButton);
-        buttonContainer.appendChild(wazeButton);
+        // Append icons to the icon container
+        iconContainer.appendChild(googleLink);
+        iconContainer.appendChild(appleLink);
+        iconContainer.appendChild(wazeLink);
 
-        // Append button container to kaai div
-        kaaiDiv.appendChild(buttonContainer);
+        // Append icon container to kaai div
+        kaaiDiv.appendChild(iconContainer);
 
         // Append kaai div to the main container
         container.appendChild(kaaiDiv);
