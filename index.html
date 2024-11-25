@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaaien Links</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .kaai {
+      padding: 15px;
+      text-align: center;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    .kaai a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+    .kaai a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kaaien Links</h1>
+  <div class="container" id="kaaiContainer">
+    <!-- Dynamic content will be inserted here -->
+  </div>
+  
+  <script>
+    // Sample JSON data
+    const data = [
+      {
+        "geometry": {
+          "coordinates": [3.73491319651371, 51.0818755105117]
+        },
+        "kaainr": "0330"
+      },
+      {
+        "geometry": {
+          "coordinates": [3.726800, 51.050500]
+        },
+        "kaainr": "0331"
+      }
+    ];
+
+    // Function to generate Google Maps link
+    function createGoogleMapsLink(lat, lon) {
+      return `https://www.google.com/maps?q=${lat},${lon}`;
+    }
+
+    // Populate the HTML with kaainr and links
+    const container = document.getElementById('kaaiContainer');
+    data.forEach(entry => {
+      const { kaainr, geometry: { coordinates } } = entry;
+      const lat = coordinates[1];
+      const lon = coordinates[0];
+      const mapsLink = createGoogleMapsLink(lat, lon);
+
+      // Create a new HTML element
+      const kaaiDiv = document.createElement('div');
+      kaaiDiv.className = 'kaai';
+      kaaiDiv.innerHTML = `<a href="${mapsLink}" target="_blank">Kaai ${kaainr}</a>`;
+      container.appendChild(kaaiDiv);
+    });
+  </script>
+</body>
+</html>
