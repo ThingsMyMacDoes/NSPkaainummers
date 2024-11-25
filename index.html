@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kaaien Links</title>
+  <title>Kaainr Links</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -33,47 +33,31 @@
   </style>
 </head>
 <body>
-  <h1>Kaaien Links</h1>
+  <h1>Kaainr Links</h1>
   <div class="container" id="kaaiContainer">
     <!-- Dynamic content will be inserted here -->
   </div>
-  
+
   <script>
-    // Sample JSON data
-    const data = [
-      {
-        "geometry": {
-          "coordinates": [3.73491319651371, 51.0818755105117]
-        },
-        "kaainr": "0330"
-      },
-      {
-        "geometry": {
-          "coordinates": [3.726800, 51.050500]
-        },
-        "kaainr": "0331"
-      }
-    ];
+    // Fetch JSON data and generate links
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('kaaiContainer');
 
-    // Function to generate Google Maps link
-    function createGoogleMapsLink(lat, lon) {
-      return `https://www.google.com/maps?q=${lat},${lon}`;
-    }
+        data.forEach(entry => {
+          const { kaainr, geometry } = entry;
+          const [lon, lat] = geometry.geometry.coordinates;
+          const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
-    // Populate the HTML with kaainr and links
-    const container = document.getElementById('kaaiContainer');
-    data.forEach(entry => {
-      const { kaainr, geometry: { coordinates } } = entry;
-      const lat = coordinates[1];
-      const lon = coordinates[0];
-      const mapsLink = createGoogleMapsLink(lat, lon);
-
-      // Create a new HTML element
-      const kaaiDiv = document.createElement('div');
-      kaaiDiv.className = 'kaai';
-      kaaiDiv.innerHTML = `<a href="${mapsLink}" target="_blank">Kaai ${kaainr}</a>`;
-      container.appendChild(kaaiDiv);
-    });
+          // Create a clickable link for each kaainr
+          const kaaiDiv = document.createElement('div');
+          kaaiDiv.className = 'kaai';
+          kaaiDiv.innerHTML = `<a href="${mapsLink}" target="_blank">Kaai ${kaainr}</a>`;
+          container.appendChild(kaaiDiv);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
   </script>
 </body>
 </html>
