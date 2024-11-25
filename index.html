@@ -39,13 +39,16 @@
   </div>
 
   <script>
-    // Fetch JSON data and generate links
+    // Fetch JSON data and generate sorted links
     fetch('data.json')
       .then(response => response.json())
       .then(data => {
         const container = document.getElementById('kaaiContainer');
 
-        data.forEach(entry => {
+        // Sort data by kaainr (numerically)
+        const sortedData = data.sort((a, b) => parseInt(a.kaainr) - parseInt(b.kaainr));
+
+        sortedData.forEach(entry => {
           const { kaainr, geometry } = entry;
           const [lon, lat] = geometry.geometry.coordinates;
           const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
