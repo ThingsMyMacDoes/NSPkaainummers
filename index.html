@@ -23,29 +23,28 @@
     }
     .kaai {
       padding: 15px;
-      text-align: center;
       background-color: #f0f0f0;
       border-radius: 5px;
       border: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
-    .kaai a {
-      text-decoration: none;
-      color: #007bff;
-      font-weight: bold;
+    .button-container {
+      display: flex;
+      gap: 10px;
     }
-    .kaai a:hover {
-      text-decoration: underline;
-    }
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
+    .kaai button {
+      padding: 8px 12px;
+      font-size: 14px;
       background-color: #007bff;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
-    button:hover {
+    .kaai button:hover {
       background-color: #0056b3;
     }
   </style>
@@ -60,14 +59,14 @@
   </div>
 
   <script>
-    // Fetch JSON data
     let isAscending = true; // Initial sort order
     let kaaiData = [];
 
+    // Fetch JSON data
     fetch('data.json')
       .then(response => response.json())
       .then(data => {
-        kaaiData = data; // Store the fetched data
+        kaaiData = data; // Store fetched data
         renderKaaiLinks(); // Render links with default sorting
       })
       .catch(error => console.error('Error fetching data:', error));
@@ -87,12 +86,47 @@
       sortedData.forEach(entry => {
         const { kaainr, geometry } = entry;
         const [lon, lat] = geometry.geometry.coordinates;
-        const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
-        // Create a clickable link for each kaainr
+        // Create a div for each kaai
         const kaaiDiv = document.createElement('div');
         kaaiDiv.className = 'kaai';
-        kaaiDiv.innerHTML = `<a href="${mapsLink}" target="_blank">Kaai ${kaainr}</a>`;
+
+        // Add the kaai number as text
+        const kaaiTitle = document.createElement('div');
+        kaaiTitle.innerText = `Kaai ${kaainr}`;
+        kaaiDiv.appendChild(kaaiTitle);
+
+        // Button container
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+
+        // Google Maps Button
+        const googleButton = document.createElement('button');
+        googleButton.innerText = 'Google Maps';
+        googleButton.onclick = () =>
+          window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank');
+
+        // Apple Maps Button
+        const appleButton = document.createElement('button');
+        appleButton.innerText = 'Apple Maps';
+        appleButton.onclick = () =>
+          window.open(`https://maps.apple.com/?q=${lat},${lon}`, '_blank');
+
+        // Waze Button
+        const wazeButton = document.createElement('button');
+        wazeButton.innerText = 'Waze';
+        wazeButton.onclick = () =>
+          window.open(`https://www.waze.com/ul?ll=${lat},${lon}&navigate=yes`, '_blank');
+
+        // Append buttons to the button container
+        buttonContainer.appendChild(googleButton);
+        buttonContainer.appendChild(appleButton);
+        buttonContainer.appendChild(wazeButton);
+
+        // Append button container to kaai div
+        kaaiDiv.appendChild(buttonContainer);
+
+        // Append kaai div to the main container
         container.appendChild(kaaiDiv);
       });
     }
